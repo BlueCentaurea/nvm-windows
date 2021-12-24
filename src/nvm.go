@@ -61,6 +61,7 @@ var env = &Environment{
 func main() {
 	args := os.Args
 	detail := ""
+	num_releases := ""
 	procarch := arch.Validate(env.arch)
 
 	// Capture any additional arguments
@@ -70,6 +71,9 @@ func main() {
 	if len(args) > 3 {
 		if args[3] == "32" || args[3] == "64" {
 			procarch = args[3]
+		}
+		if args[2] == "available" {
+			num_releases = args[3]
 		}
 	}
 	if len(args) < 2 {
@@ -90,9 +94,9 @@ func main() {
 	case "use":
 		use(detail, procarch)
 	case "list":
-		list(detail)
+		list(detail, num_releases)
 	case "ls":
-		list(detail)
+		list(detail, num_releases)
 	case "on":
 		enable()
 	case "off":
@@ -619,7 +623,7 @@ func useArchitecture(a string) {
 	}
 }
 
-func list(listtype string) {
+func list(listtype string, num_releases string) {
 	if listtype == "" {
 		listtype = "installed"
 	}
@@ -659,7 +663,11 @@ func list(listtype string) {
 	} else {
 		_, lts, current, stable, unstable, _ := node.GetAvailable()
 
-		releases := 20
+		var releases int = 20
+		if len(num_releases) > 0 {
+			tmp_releases, _ := strconv.ParseInt(num_releases, 0, 32)
+			releases = (int)(tmp_releases)
+		}
 
 		data := make([][]string, releases, releases+5)
 		for i := 0; i < releases; i++ {

@@ -151,6 +151,8 @@ func main() {
 		setNodeMirror(detail)
 	case "npm_mirror":
 		setNpmMirror(detail)
+	case "config":
+		config()
 	default:
 		help()
 	}
@@ -774,6 +776,23 @@ func help() {
 	fmt.Println("  nvm root [path]              : Set the directory where nvm should store different versions of node.js.")
 	fmt.Println("                                 If <path> is not set, the current root will be displayed.")
 	fmt.Println("  nvm version                  : Displays the current running version of nvm for Windows. Aliased as v.")
+	fmt.Println(" ")
+}
+
+func config() {
+	fmt.Println("\nRunning version " + NvmVersion + ".")
+	fmt.Println("\nConfig:")
+	fmt.Println(" ")
+	fmt.Println("  settings         : ", env.settings)
+	fmt.Println("  root             : ", env.root)
+	fmt.Println("  arch             : ", env.arch)
+	fmt.Println("  proxy            : ", env.proxy)
+	fmt.Println("  symlink          : ", env.symlink)
+	fmt.Println("  originalpath     : ", env.originalpath)
+	fmt.Println("  originalversion  : ", env.originalversion)
+	fmt.Println("  node_mirror      : ", env.node_mirror)
+	fmt.Println("  npm_mirror       : ", env.npm_mirror)
+	fmt.Println("  verifyssl        : ", env.verifyssl)
 	fmt.Println(" ")
 }
 
